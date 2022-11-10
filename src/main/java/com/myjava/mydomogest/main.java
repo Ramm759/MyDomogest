@@ -1,8 +1,5 @@
-package com.example.mydomogest;
+package com.myjava.mydomogest;
 
-import com.example.mydomogest.travail.UdpService;
-
-import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 

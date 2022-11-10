@@ -1,4 +1,4 @@
-package com.example.mydomogest.travail;
+package com.myjava.mydomogest.old;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

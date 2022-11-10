@@ -1,4 +1,4 @@
-package com.example.mydomogest;
+package com.myjava.mydomogest.old;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

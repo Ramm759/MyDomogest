@@ -1,4 +1,4 @@
-package com.example.mydomogest;
+package com.myjava.mydomogest.old;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;

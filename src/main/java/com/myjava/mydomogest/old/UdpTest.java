@@ -1,6 +1,6 @@
-package com.example.mydomogest.travail;
+package com.myjava.mydomogest.old;
 
-import org.junit.After;
+import com.myjava.mydomogest.service.UdpService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,25 +12,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class UdpTest {
-    private final String destination = "192.168.1.53";
-    private final int port = 1470;
-    private final int tailleTrame = 16;
 
 
     UdpService udpService;
 
     @Before
     public void setup() throws SocketException, UnknownHostException {
-        // new EchoServer().start();
+        String destination = "192.168.1.53";
+        int port = 1470;
+        int tailleTrame = 16;
         udpService = new UdpService(destination, port, tailleTrame);
     }
 
     @Test
     public void whenCanSendAndReceivePacket_thenCorrect() throws IOException {
-        udpService.send("60,03,05,60,18,00,0B,26,00,00,00,00,00,00,00,11");
+        byte[] trame = new byte[]{0x60, 0x03, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11};
+        udpService.send(trame);
         // assertEquals("hello server", echo);
         // echo = udpService.send("server is working");
         // assertFalse(echo.equals("hello server"));
+        udpService.ecoute();
     }
 
     /*@After
