@@ -1,5 +1,7 @@
 package com.myjava.mydomogest.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -7,6 +9,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 public class UdpServiceTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UdpService.class);
     UdpService udpService;
 
     @org.testng.annotations.BeforeMethod
