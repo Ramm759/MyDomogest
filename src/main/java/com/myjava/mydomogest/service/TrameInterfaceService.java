@@ -16,8 +16,11 @@ public class TrameInterfaceService {
 
         String cdeInterface = "0x60";
         String pcid = generatePcid();
-        String trameCanSize = "0x05";
         String[] trameCan = new  String[] {"0x60", "0x18", "0x00", "0x0B", "0x26"};
+
+        // Calcul et valorisation trameCanSize
+        String trameCanSize =trameCan.length < 10 ? "0x0" + trameCan.length : "0x" + trameCan.length;
+
         String[] dummy = new String[]  {"0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"};
         String Checksum = checksun(cdeInterface, pcid, trameCanSize, trameCan, dummy);
 
