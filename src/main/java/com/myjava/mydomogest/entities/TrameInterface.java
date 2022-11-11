@@ -41,7 +41,7 @@ public class TrameInterface {
     // TODO TAILLE... ???
     private final Integer TAILLE_TRAME_INTERFACE = 16;
 
-    private String cdeInterface; // 0x60, 0x50, 0x70, 0x41, 0x51, 0x42, 0x43, 0x52, 0x44, 0x45, 0x54
+    private String cdeInterface;
     private String pcid;
     private String trameCanSize;
     private String[] trameCan;

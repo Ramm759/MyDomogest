@@ -74,18 +74,18 @@ public class UdpService {
 
 
         // String checksum = trameInterface.getChecksum(); // 0x11
+        // byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
 
-
-        String[] trameString = new String[16] ;
+        String[] trameString = new String[16];
         trameString[0] = cdeInterface;
         trameString[1] = pcid;
         trameString[2] = trameCanSize;
 
         trameString[3] = trameCan[0];
-        trameString[4] = trameCan[0];
-        trameString[5] = trameCan[0];
-        trameString[6] = trameCan[0];
-        trameString[7] = trameCan[0];
+        trameString[4] = trameCan[1];
+        trameString[5] = trameCan[2];
+        trameString[6] = trameCan[3];
+        trameString[7] = trameCan[4];
 
         trameString[8] = dummy[0];
         trameString[9] = dummy[1];
@@ -95,24 +95,19 @@ public class UdpService {
         trameString[13] = dummy[5];
         trameString[14] = dummy[6];
 
-        trameString[15] = "0x11";
+        trameString[15] = "0x71";
 
         // Conversion String / byte
-
         byte[] trame = new byte[16];
         int index = 0;
-        for (String stringEnCours : trameString){
-            String octetEnCoursString = stringEnCours.substring(stringEnCours.length()-2);
-            Integer octetEncoursInteger = Integer.parseInt(octetEnCoursString);
+        for (String stringEnCours : trameString) { // format : 0xF6
+            Integer octetEncoursInteger = Integer.parseInt(stringEnCours.substring(stringEnCours.length() - 2), 16); // radix : base 16
             byte octetEnCoursByte = octetEncoursInteger.byteValue();
-
-            //byte[] octetEnCoursByte = octetEnCours.getBytes();
             trame[index] = octetEnCoursByte;
             index++;
         }
 
-        //byte[] trame = new byte[]{0x60, 0x03, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11}
-
+        //byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
 
 
         // Création du message
@@ -124,35 +119,6 @@ public class UdpService {
         // TODO : retourner la réponse
         return "receveid";
     }
-
-    public byte[] decodeHexString(String hexString) {
-        if (hexString.length() % 2 == 1) {
-            throw new IllegalArgumentException(
-                    "Invalid hexadecimal String supplied.");
-        }
-
-        byte[] bytes = new byte[hexString.length() / 2];
-        for (int i = 0; i < hexString.length(); i += 2) {
-            bytes[i / 2] = hexToByte(hexString.substring(i, i + 2));
-        }
-        return bytes;
-    }
-
-    public byte hexToByte(String hexString) {
-        int firstDigit = toDigit(hexString.charAt(0));
-        int secondDigit = toDigit(hexString.charAt(1));
-        return (byte) ((firstDigit << 4) + secondDigit);
-    }
-
-    private int toDigit(char hexChar) {
-        int digit = Character.digit(hexChar, 16);
-        if(digit == -1) {
-            throw new IllegalArgumentException(
-                    "Invalid Hexadecimal Character: "+ hexChar);
-        }
-        return digit;
-    }
-
 
 
     public void ecoute() {
