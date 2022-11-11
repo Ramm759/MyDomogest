@@ -56,25 +56,19 @@ public class UdpService {
         return "received";
     }
 
-    public String send() throws IOException {
+    public String send(TrameInterface trameInterface) throws IOException {
         // TODO : Corriger Exception
-
         // Récupération de la connexion udp
         DatagramSocket socket = getSingleDatagramSocket();
-
-        // Création de la trameString à envoyer
-        TrameInterfaceService trameInterfaceService = new TrameInterfaceService();
-        TrameInterface trameInterface = trameInterfaceService.generateTrameInterface();
 
         String cdeInterface = trameInterface.getCdeInterface(); // 0x60
         String pcid = trameInterface.getPcid(); // 0x03
         String trameCanSize = trameInterface.getTrameCanSize(); // 0x05
         String[] trameCan = trameInterface.getTrameCan(); // 0x60, 0x18, 0x00, 0x0B, 0x26
         String[] dummy = trameInterface.getDummy(); // 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        String Checksum = trameInterface.getChecksum();
 
-
-        // String checksum = trameInterface.getChecksum(); // 0x11
-        // byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
+        // byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
 
         String[] trameString = new String[16];
         trameString[0] = cdeInterface;
@@ -95,7 +89,7 @@ public class UdpService {
         trameString[13] = dummy[5];
         trameString[14] = dummy[6];
 
-        trameString[15] = "0x71";
+        trameString[15] = Checksum;
 
         // Conversion String / byte
         byte[] trame = new byte[16];
@@ -107,7 +101,7 @@ public class UdpService {
             index++;
         }
 
-        //byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
+        //byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
 
 
         // Création du message

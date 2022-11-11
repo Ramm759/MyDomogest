@@ -1,5 +1,6 @@
 package com.myjava.mydomogest.service;
 
+import com.myjava.mydomogest.entities.TrameInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
@@ -32,7 +33,7 @@ public class UdpServiceTest {
 
     @Test
     public void testSend() throws IOException {
-        byte[] trame = new byte[]{0x60, 0x03, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11};
+        byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
         udpService.send(trame);
         // assertEquals("hello server", echo);
         // echo = udpService.send("server is working");
@@ -42,8 +43,25 @@ public class UdpServiceTest {
 
     @Test
     public void testSendTrameInterface() throws IOException {
-        udpService.send();
-    }
+            // byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
+
+            // Création de la trameString à envoyer
+            TrameInterfaceService trameInterfaceService = new TrameInterfaceService();
+            TrameInterface trameInterface = trameInterfaceService.generateTrameInterface();
+
+            udpService.send(trameInterface);
+            // assertEquals("hello server", echo);
+            // echo = udpService.send("server is working");
+            // assertFalse(echo.equals("hello server"));
+            // udpService.ecoute();
+        }
+
+    /*@After
+    public void tearDown() throws IOException {
+        udpService.send("end");
+        udpService.close();
+    }*/
+
 
     @Test
     public void testEcoute() {

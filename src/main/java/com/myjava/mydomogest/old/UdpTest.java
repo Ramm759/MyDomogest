@@ -1,5 +1,7 @@
 package com.myjava.mydomogest.old;
 
+import com.myjava.mydomogest.entities.TrameInterface;
+import com.myjava.mydomogest.service.TrameInterfaceService;
 import com.myjava.mydomogest.service.UdpService;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +27,14 @@ public class UdpTest {
     }
 
     @Test
-    public void whenCanSendAndReceivePacket_thenCorrect() throws IOException {
-
+    public void ouvertureVolet() throws IOException {
         // byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
-        udpService.send();
+
+        // Création de la trameString à envoyer
+        TrameInterfaceService trameInterfaceService = new TrameInterfaceService();
+        TrameInterface trameInterface = trameInterfaceService.generateTrameInterface();
+
+        udpService.send(trameInterface);
         // assertEquals("hello server", echo);
         // echo = udpService.send("server is working");
         // assertFalse(echo.equals("hello server"));
