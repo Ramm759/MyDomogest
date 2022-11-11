@@ -43,7 +43,6 @@ public class UdpService {
 
     public String send(byte[] trame) throws IOException {
         // TODO : Corriger Exception
-
         // Récupération de la connexion udp
         DatagramSocket socket = getSingleDatagramSocket();
 
@@ -61,26 +60,23 @@ public class UdpService {
         // Récupération de la connexion udp
         DatagramSocket socket = getSingleDatagramSocket();
 
-        String cdeInterface = trameInterface.getCdeInterface(); // 0x60
-        String pcid = trameInterface.getPcid(); // 0x03
-        String trameCanSize = trameInterface.getTrameCanSize(); // 0x05
-        String[] trameCan = trameInterface.getTrameCan(); // 0x60, 0x18, 0x00, 0x0B, 0x26
-        String[] dummy = trameInterface.getDummy(); // 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        String Checksum = trameInterface.getChecksum();
+       // byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
 
-        // byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
-
+        // Création de la trame à envoyer
         String[] trameString = new String[16];
-        trameString[0] = cdeInterface;
-        trameString[1] = pcid;
-        trameString[2] = trameCanSize;
 
+        trameString[0] = trameInterface.getCdeInterface();
+        trameString[1] = trameInterface.getPcid();
+        trameString[2] = trameInterface.getTrameCanSize();
+
+        String[] trameCan = trameInterface.getTrameCan();
         trameString[3] = trameCan[0];
         trameString[4] = trameCan[1];
         trameString[5] = trameCan[2];
         trameString[6] = trameCan[3];
         trameString[7] = trameCan[4];
 
+        String[] dummy = trameInterface.getDummy();
         trameString[8] = dummy[0];
         trameString[9] = dummy[1];
         trameString[10] = dummy[2];
@@ -89,7 +85,7 @@ public class UdpService {
         trameString[13] = dummy[5];
         trameString[14] = dummy[6];
 
-        trameString[15] = Checksum;
+        trameString[15] = trameInterface.getChecksum();
 
         // Conversion String / byte
         byte[] trame = new byte[16];
@@ -100,9 +96,6 @@ public class UdpService {
             trame[index] = octetEnCoursByte;
             index++;
         }
-
-        //byte[] trame = new byte[]{0x60, 0x64, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x72};
-
 
         // Création du message
         DatagramPacket packet = new DatagramPacket(trame, trame.length, address, port);

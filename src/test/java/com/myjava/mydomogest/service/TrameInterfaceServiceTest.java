@@ -53,7 +53,7 @@ public class TrameInterfaceServiceTest {
         String[] dummy = new String[]  {"0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"};
         String Checksum = "0x71";
 
-        String checksum = trameInterfaceService.checksun(cdeInterface, pcid, trameCanSize, trameCan, dummy);
+        String checksum = trameInterfaceService.generateChecksun(cdeInterface, pcid, trameCanSize, trameCan, dummy);
         LOGGER.info("Checksum = {}", checksum);
 
     }

@@ -10,26 +10,34 @@ import java.net.UnknownHostException;
 public class TrameInterfaceService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UdpService.class);
 
-    public TrameInterface generateTrameInterface(){
+    // Conversion d'un octet String en byte
+    public static byte convertOctetEnCoursByte(String stringEnCours) {
+        Integer octetEncoursInteger = Integer.parseInt(stringEnCours.substring(stringEnCours.length() - 2), 16); // radix : base 16
+        byte octetEnCoursByte = octetEncoursInteger.byteValue();
+        return octetEnCoursByte;
+    }
 
-        //byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
-
-        String cdeInterface = "0x60";
+    public TrameInterface generateTrameInterface(String cdeInterface, String[] trameCan) {
+        // Génération pdid
         String pcid = generatePcid();
-        String[] trameCan = new  String[] {"0x60", "0x18", "0x00", "0x0B", "0x26"};
 
         // Calcul et valorisation trameCanSize
-        String trameCanSize =trameCan.length < 10 ? "0x0" + trameCan.length : "0x" + trameCan.length;
+        String trameCanSize = trameCan.length < 10 ? "0x0" + trameCan.length : "0x" + trameCan.length;
 
-        String[] dummy = new String[]  {"0x00", "0x00", "0x00", "0x00", "0x00", "0x00", "0x00"};
-        String Checksum = checksun(cdeInterface, pcid, trameCanSize, trameCan, dummy);
+        // génération dummy
+        int tailleDummy = 12 - trameCan.length;
+        String[] dummy = new String[tailleDummy];
+        for (int nb = 0; nb < tailleDummy; nb++) {
+            dummy[nb] = "0x00";
+        }
 
-        TrameInterface trameInterface = new TrameInterface(cdeInterface, pcid, trameCanSize, trameCan, dummy, Checksum);
+        // Génération checksum
+        String Checksum = generateChecksun(cdeInterface, pcid, trameCanSize, trameCan, dummy);
 
         return new TrameInterface(cdeInterface, pcid, trameCanSize, trameCan, dummy, Checksum);
     }
 
-    public String checksun(String cdeInterface, String pcid, String trameCanSize, String[] trameCan, String[] dummy){
+    public String generateChecksun(String cdeInterface, String pcid, String trameCanSize, String[] trameCan, String[] dummy) {
         byte[] liste = new byte[16];
         int index = 0;
         String stringEnCours;
@@ -55,7 +63,7 @@ public class TrameInterfaceService {
         index++;
 
         // Ajout trameCan
-        for (String enCours : trameCan){
+        for (String enCours : trameCan) {
             stringEnCours = enCours;
             octetEnCoursByte = convertOctetEnCoursByte(stringEnCours);
             liste[index] = octetEnCoursByte;
@@ -63,7 +71,7 @@ public class TrameInterfaceService {
         }
 
         // Ajout dummy
-        for (String enCours : dummy){
+        for (String enCours : dummy) {
             stringEnCours = enCours;
             octetEnCoursByte = convertOctetEnCoursByte(stringEnCours);
             liste[index] = octetEnCoursByte;
@@ -73,20 +81,12 @@ public class TrameInterfaceService {
         // Calcul du cheksum
         String cheksum = "0x";
         Integer total = 0;
-        for (byte byteEnCours : liste){
+        for (byte byteEnCours : liste) {
             total += byteEnCours;
         }
 
         return "0x" + Integer.toHexString((total % 256));
     }
-
-    // Conversion d'un octet String en byte
-    public static byte convertOctetEnCoursByte(String stringEnCours) {
-        Integer octetEncoursInteger = Integer.parseInt(stringEnCours.substring(stringEnCours.length() - 2), 16); // radix : base 16
-        byte octetEnCoursByte = octetEncoursInteger.byteValue();
-        return octetEnCoursByte;
-    }
-
 
     public String generatePcid() { // Le Pcid est le dernier octet de l'Ip locale
         InetAddress ip = null;
