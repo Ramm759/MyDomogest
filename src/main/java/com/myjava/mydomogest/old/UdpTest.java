@@ -26,12 +26,12 @@ public class UdpTest {
 
     @Test
     public void whenCanSendAndReceivePacket_thenCorrect() throws IOException {
-        byte[] trame = new byte[]{0x60, 0x03, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11};
+        byte[] trame = new byte[]{0x60, 0x63, 0x05, 0x60, 0x18, 0x00, 0x0B, 0x26, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x71};
         udpService.send(trame);
         // assertEquals("hello server", echo);
         // echo = udpService.send("server is working");
         // assertFalse(echo.equals("hello server"));
-        udpService.ecoute();
+        // udpService.ecoute();
     }
 
     /*@After

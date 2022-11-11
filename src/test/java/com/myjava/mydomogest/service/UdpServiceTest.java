@@ -38,11 +38,16 @@ public class UdpServiceTest {
         // echo = udpService.send("server is working");
         // assertFalse(echo.equals("hello server"));
         udpService.ecoute();
+    }
 
+    @Test
+    public void testSendTrameInterface() throws IOException {
+        udpService.send();
     }
 
     @Test
     public void testEcoute() {
+        udpService.ecoute();
     }
 
     @Test

@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class InterfaceTrameServiceTest {
+public class TrameInterfaceServiceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(UdpService.class);
 
-    InterfaceTrameService interfaceTrameService = new InterfaceTrameService();
+    TrameInterfaceService trameInterfaceService = new TrameInterfaceService();
 
     @Test
     public void testGeneratePcid() {
@@ -27,7 +27,7 @@ public class InterfaceTrameServiceTest {
         LOGGER.info("Ip locale : {}", hostAddress);
 
 
-        byte pcid = interfaceTrameService.generatePcid();
+        String pcid = trameInterfaceService.generatePcid();
         LOGGER.info("Pcid (dernier octet de l'Ip locale) : {}", pcid);
 
 
