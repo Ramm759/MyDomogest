@@ -96,6 +96,11 @@ public class TrameInterfaceService {
             throw new RuntimeException(e);
         }
         String hostAddress = ip.getHostAddress();
+
+        if (hostAddress.substring((hostAddress.length()-2), (hostAddress.length()-1)).equals(".")){
+            return "0x0" + hostAddress.substring(hostAddress.length() - 1);
+        }
+
         return "0x" + hostAddress.substring(hostAddress.length() - 2);
     }
 }
